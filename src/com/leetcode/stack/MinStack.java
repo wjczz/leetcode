@@ -4,65 +4,67 @@ import java.util.Stack;
 
 public class MinStack {
 
-	private Stack<Integer> stack;
-	MinStack(Stack<Integer> stack) {
-		// TODO Auto-generated constructor stub
-		this.stack = stack;
-	}
-	public MinStack() {
-		// TODO Auto-generated constructor stub
-	}
+	private Stack<Integer> stackData = new Stack<Integer>();
+	private Stack<Integer> stackMin = new Stack<Integer>();
+
 	public void push(int x) {
-		if(stack != null)
+		stackData.push(x);
+		if(stackMin.isEmpty() || x <= stackMin.peek())
 		{
-			stack.push(x);			
+			stackMin.push(x);
 		}
-    }
+	}
 
-    public void pop() {
-    	if(stack != null)
+	public void pop() {
+		if(stackData.isEmpty())
 		{
-    		stack.pop();			
+			return;
 		}
-    	
-    }
+		int x = stackData.peek();
+		stackData.pop();
+		System.out.println("pop:"+ x);
 
-    public int top() {
-        return stack.peek();
-    }
+		if(x <= stackMin.peek())
+		{
+			stackMin.pop();
+		}
+	}
 
-    public int getMin() {
-    	int result = Integer.MAX_VALUE; 
-    	for(int i:stack)
-    	 {
-    		 if(result > i)
-    		 {
-    			 result = i;
-    		 }
-    	 }
-    	return result;
-    }
-    
-	/**
-	 * @param args
-	 */
+	public int top() {
+		System.out.println("Top:"+ stackData.peek());
+
+		return stackData.peek();
+	}
+
+	public int getMin() {
+		if(stackMin.isEmpty())
+		{
+			throw new RuntimeException("Your stack is emoty");
+		}
+		System.out.println("Min:"+ stackMin.peek());
+		return stackMin.peek();
+		
+	}
+
+	/* 需求:实现一个获取最小元素的栈,要求每一个函数的复杂度都必须是O(1)
+	 * 思路:一开始只是想按照原来用一个栈去实现，可是实现不了,
+	 * 因为当获取最小元素的时候，时间复杂度为O(n).这时候就只能空间换时间了 
+	 * 思路：用一个栈专门记录最小的值
+	 * */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Stack<Integer> stack = new Stack<Integer>();
-		
-		MinStack mstack = new MinStack(stack);
-		for(int i = 0; i < 1; i++)
+		MinStack mstack = new MinStack();
+		for(int i = 0; i < 10; i++)
 		{
-			int element = (int)(Math.random() * -10);
-			mstack.push(element);
-			System.out.print(element + "  ");
+			int x = (int)(Math.random() * 10);
+			mstack.push(x);
+			System.out.print(x+ " ");
 		}
-		System.out.println();
-		System.out.println("first element:" + mstack.top());
-		System.out.println("min element:" + mstack.getMin());
+		mstack.getMin();
+		mstack.top();
 		mstack.pop();
-		System.out.println("min element:" + mstack.getMin());
-		
+		mstack.getMin();
+
 	}
 
 }
