@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 public class HappyNumber {
 
